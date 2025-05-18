@@ -1,0 +1,185 @@
+import type { Article, Stat } from "@/lib/types"
+import { Users, Globe, Handshake, TreePine } from "lucide-react"
+import React from "react"
+
+export const mockFeaturedArticles: Article[] = [
+  {
+    id: "1",
+    title: "Clean Water Initiatives Transform Rural Communities in East Africa",
+    slug: "clean-water-initiatives",
+    excerpt:
+      "How innovative water purification systems are bringing sustainable access to clean water in drought-affected regions.",
+    image: "/images/stories/featured/clean-water.jpg",
+    category: "SDG 6",
+    author: "Sarah Johnson",
+    date: "May 12, 2023",
+    readTime: 8,
+    featured: true,
+  },
+  {
+    id: "2",
+    title: "Youth-Led Climate Action: Generation Z Takes the Lead",
+    slug: "youth-led-climate-action",
+    excerpt:
+      "Young activists around the world are creating innovative solutions to combat climate change in their communities.",
+    image: "/images/stories/featured/youth-climate.jpg",
+    category: "SDG 13",
+    author: "Michael Chen",
+    date: "April 22, 2023",
+    readTime: 6,
+    featured: true,
+  },
+  {
+    id: "3",
+    title: "Digital Education Bridges the Gap in Remote Communities",
+    slug: "digital-education-bridges-gap",
+    excerpt: "How technology is revolutionizing access to quality education in previously underserved regions.",
+    image: "/images/stories/featured/digital-education.jpg",
+    category: "SDG 4",
+    author: "Priya Patel",
+    date: "March 15, 2023",
+    readTime: 7,
+    featured: true,
+  },
+]
+
+export const mockArticles: Article[] = [
+  {
+    id: "4",
+    title: "Sustainable Farming Practices Revitalize Soil Health",
+    slug: "sustainable-farming-practices",
+    excerpt:
+      "Farmers adopting regenerative agriculture techniques are seeing dramatic improvements in soil health and crop yields.",
+    image: "/images/stories/regular/sustainable-farming.jpg",
+    category: "SDG 2",
+    author: "James Wilson",
+    date: "May 5, 2023",
+    readTime: 5,
+  },
+  {
+    id: "5",
+    title: "Women Entrepreneurs Leading Social Innovation",
+    slug: "women-entrepreneurs",
+    excerpt: "Female-founded social enterprises are creating sustainable solutions to community challenges.",
+    image: "/images/stories/regular/women-entrepreneurs.jpg",
+    category: "SDG 5",
+    author: "Elena Rodriguez",
+    date: "April 18, 2023",
+    readTime: 9,
+  },
+  {
+    id: "6",
+    title: "Renewable Energy Revolution in Island Nations",
+    slug: "renewable-energy-revolution",
+    excerpt: "Small island developing states are becoming global leaders in the transition to 100% renewable energy.",
+    image: "/images/stories/regular/renewable-energy.jpg",
+    category: "SDG 7",
+    author: "David Nguyen",
+    date: "March 30, 2023",
+    readTime: 7,
+  },
+  {
+    id: "7",
+    title: "Urban Gardens Transform Food Deserts",
+    slug: "urban-gardens-transform",
+    excerpt: "Community-led initiatives are bringing fresh produce to neighborhoods lacking access to nutritious food.",
+    image: "/images/stories/regular/urban-gardens.jpg",
+    category: "SDG 11",
+    author: "Maya Johnson",
+    date: "March 22, 2023",
+    readTime: 6,
+  },
+  {
+    id: "8",
+    title: "Ocean Cleanup Innovations Tackle Plastic Pollution",
+    slug: "ocean-cleanup-innovations",
+    excerpt:
+      "New technologies are being deployed to remove plastic waste from our oceans and prevent further contamination.",
+    image: "/images/stories/regular/ocean-cleanup.jpg",
+    category: "SDG 14",
+    author: "Thomas Lee",
+    date: "March 10, 2023",
+    readTime: 8,
+  },
+  {
+    id: "9",
+    title: "Inclusive Education Models for Children with Disabilities",
+    slug: "inclusive-education-models",
+    excerpt:
+      "Schools around the world are implementing innovative approaches to ensure quality education for all children.",
+    image: "/images/stories/regular/inclusive-education.jpg",
+    category: "SDG 4",
+    author: "Sophia Martinez",
+    date: "February 28, 2023",
+    readTime: 7,
+  },
+  {
+    id: "10",
+    title: "Sustainable Fashion: Ethical Brands Leading the Way",
+    slug: "sustainable-fashion",
+    excerpt: "How innovative designers are creating eco-friendly clothing and transforming the fashion industry.",
+    image: "/images/stories/regular/sustainable-fashion.jpg",
+    category: "SDG 12",
+    author: "Emma Taylor",
+    date: "February 15, 2023",
+    readTime: 5,
+  },
+  {
+    id: "11",
+    title: "Telemedicine Brings Healthcare to Remote Regions",
+    slug: "telemedicine-remote-regions",
+    excerpt: "Digital health solutions are expanding access to medical care in previously underserved communities.",
+    image: "/images/stories/regular/telemedicine.jpg",
+    category: "SDG 3",
+    author: "Robert Kim",
+    date: "February 8, 2023",
+    readTime: 6,
+  },
+  {
+    id: "12",
+    title: "Affordable Housing Innovations for Growing Cities",
+    slug: "affordable-housing-innovations",
+    excerpt:
+      "Architects and urban planners are developing creative solutions to address housing crises in urban areas.",
+    image: "/images/stories/regular/affordable-housing.jpg",
+    category: "SDG 11",
+    author: "Jamal Washington",
+    date: "January 25, 2023",
+    readTime: 9,
+  },
+  {
+    id: "13",
+    title: "Indigenous Knowledge Guides Forest Conservation",
+    slug: "indigenous-knowledge-conservation",
+    excerpt:
+      "Traditional ecological practices are being integrated into modern conservation efforts with remarkable results.",
+    image: "/images/stories/regular/forest-conservation.jpg",
+    category: "SDG 15",
+    author: "Ana Morales",
+    date: "January 12, 2023",
+    readTime: 7,
+  },
+]
+
+export const mockStats: Stat[] = [
+  {
+    icon: <Globe className="h-6 w-6" />,
+    value: "120+",
+    label: "Countries Reached",
+  },
+  {
+    icon: <Users className="h-6 w-6" />,
+    value: "2.5M+",
+    label: "Community Members",
+  },
+  {
+    icon: <Handshake className="h-6 w-6" />,
+    value: "350+",
+    label: "Partner Organizations",
+  },
+  {
+    icon: <TreePine className="h-6 w-6" />,
+    value: "1.2M+",
+    label: "Trees Planted",
+  },
+]
