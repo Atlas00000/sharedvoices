@@ -1,19 +1,22 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Globe, Facebook, Github, Loader2, Mail } from "lucide-react"
+import { toast } from "sonner"
 
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
@@ -34,11 +37,32 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate authentication
-    setTimeout(() => {
+    try {
+      const result = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      })
+
+      if (result?.error) {
+        toast.error("Invalid email or password")
+        return
+      }
+
+      router.push(callbackUrl)
+    } catch (error) {
+      toast.error("Something went wrong")
+    } finally {
       setIsLoading(false)
-      router.push("/dashboard")
-    }, 1500)
+    }
+  }
+
+  const handleSocialLogin = async (provider: string) => {
+    try {
+      await signIn(provider, { callbackUrl })
+    } catch (error) {
+      toast.error("Something went wrong")
+    }
   }
 
   return (
@@ -128,15 +152,15 @@ export default function LoginPage() {
 
               <TabsContent value="social" className="animate-fade-in">
                 <div className="space-y-4">
-                  <Button variant="outline" className="w-full" onClick={() => router.push("/dashboard")}>
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin("github")}>
                     <Github className="mr-2 h-4 w-4" />
                     Continue with GitHub
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={() => router.push("/dashboard")}>
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin("facebook")}>
                     <Facebook className="mr-2 h-4 w-4" />
                     Continue with Facebook
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={() => router.push("/dashboard")}>
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin("google")}>
                     <Mail className="mr-2 h-4 w-4" />
                     Continue with Google
                   </Button>

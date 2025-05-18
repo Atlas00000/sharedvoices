@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { useInView } from "react-intersection-observer"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Search, Filter, ArrowRight } from "lucide-react"
+import { Search, Filter, ArrowRight, PenSquare } from "lucide-react"
 
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
@@ -17,6 +18,7 @@ import FeaturedStoryHero from "@/components/featured-story-hero"
 import { mockArticles, mockFeaturedArticles } from "@/lib/mock-data.tsx"
 
 export default function StoriesPage() {
+  const router = useRouter()
   const [mounted, setMounted] = useState(false)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
@@ -86,6 +88,13 @@ export default function StoriesPage() {
               </div>
 
               <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => router.push("/stories/editor")}
+                  className="gap-2"
+                >
+                  <PenSquare className="h-4 w-4" />
+                  Submit Your Story
+                </Button>
                 <div className="relative">
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input type="search" placeholder="Search stories..." className="w-[200px] pl-8 md:w-[260px]" />
@@ -329,7 +338,11 @@ export default function StoriesPage() {
               <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
                 Have a story of impact or innovation to share? We want to hear from you and amplify your voice.
               </p>
-              <Button size="lg" className="mt-4">
+              <Button 
+                size="lg" 
+                className="mt-4"
+                onClick={() => router.push("/stories/editor")}
+              >
                 Submit Your Story
               </Button>
             </div>

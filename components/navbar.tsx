@@ -3,14 +3,24 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ModeToggle } from "@/components/mode-toggle"
 import { cn } from "@/lib/utils"
-import { Menu, Search, X, Globe, LogIn } from "lucide-react"
+import { Menu, Search, X, Globe, LogIn, User, LogOut } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const Navbar = () => {
+  const { data: session, status } = useSession()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const pathname = usePathname()
@@ -35,6 +45,10 @@ const Navbar = () => {
     { href: "/about", label: "About" },
     { href: "/get-involved", label: "Get Involved" },
   ]
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/" })
+  }
 
   return (
     <header
@@ -66,17 +80,29 @@ const Navbar = () => {
                     {link.label}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-2 mt-4">
-                  <Button asChild>
-                    <Link href="/login">
-                      <LogIn className="mr-2 h-4 w-4" />
-                      Sign In
-                    </Link>
-                  </Button>
-                  <Button variant="outline" asChild>
-                    <Link href="/register">Create Account</Link>
-                  </Button>
-                </div>
+                {status === "authenticated" ? (
+                  <div className="flex flex-col gap-2 mt-4">
+                    <Button variant="outline" asChild>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </Button>
+                    <Button variant="ghost" onClick={handleSignOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2 mt-4">
+                    <Button asChild>
+                      <Link href="/login">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        Sign In
+                      </Link>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <Link href="/register">Create Account</Link>
+                    </Button>
+                  </div>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
@@ -128,12 +154,40 @@ const Navbar = () => {
           <ModeToggle />
 
           <div className="hidden sm:flex gap-2">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">Sign In</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/register">Join</Link>
-            </Button>
+            {status === "authenticated" ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-2">
+                    <User className="h-4 w-4" />
+                    {session.user?.name || "Account"}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button size="sm" asChild>
+                  <Link href="/register">Join</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>

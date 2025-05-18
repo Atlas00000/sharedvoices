@@ -1,6 +1,6 @@
 import type React from "react"
-import { ThemeProvider } from "@/components/theme-provider"
 import { Inter, Poppins } from "next/font/google"
+import { Providers } from "./providers"
 import "./globals.css"
 
 const inter = Inter({
@@ -18,7 +18,7 @@ export const metadata = {
   title: "Shared Voices | Humanitarian Platform",
   description:
     "A platform to inform, inspire, and empower individuals and communities to take action towards a sustainable, innovative, and peaceful world.",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -28,10 +28,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${poppins.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
