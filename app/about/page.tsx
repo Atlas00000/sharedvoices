@@ -237,10 +237,11 @@ export default function AboutPage() {
                     alt="About Shared Voices"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover rounded-xl shadow-2xl transition-all duration-300 hover:shadow-primary/20"
+                    className="object-cover rounded-xl shadow-2xl transition-all duration-500 hover:shadow-primary/20 hover:scale-[1.02] hover:brightness-105"
                     priority
                     quality={90}
                   />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 hover:opacity-100" />
                 </div>
               </div>
             </div>
@@ -298,47 +299,67 @@ export default function AboutPage() {
               </div>
               <div className="grid gap-6 md:grid-cols-2 animate-slide-in-right">
                 <div className="grid gap-6">
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl">
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg transition-all duration-500 hover:shadow-xl group">
                     <Image
                       src="/images/about/mission/mission-1.jpg"
                       alt="Our mission in action - Community engagement"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-105"
                       quality={85}
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                      <h3 className="text-lg font-semibold">Community Engagement</h3>
+                      <p className="text-sm text-white/90">Building stronger communities through collaboration</p>
+                    </div>
                   </div>
-                  <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl">
+                  <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg transition-all duration-500 hover:shadow-xl group">
                     <Image
                       src="/images/about/mission/mission-2.jpg"
                       alt="Our mission in action - Education initiatives"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-105"
                       quality={85}
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                      <h3 className="text-lg font-semibold">Education Initiatives</h3>
+                      <p className="text-sm text-white/90">Empowering through knowledge and learning</p>
+                    </div>
                   </div>
                 </div>
                 <div className="grid gap-6">
-                  <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl">
+                  <div className="relative aspect-square overflow-hidden rounded-xl shadow-lg transition-all duration-500 hover:shadow-xl group">
                     <Image
                       src="/images/about/mission/mission-3.jpg"
                       alt="Our mission in action - Sustainable development"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-105"
                       quality={85}
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                      <h3 className="text-lg font-semibold">Sustainable Development</h3>
+                      <p className="text-sm text-white/90">Creating lasting positive impact</p>
+                    </div>
                   </div>
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl">
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg transition-all duration-500 hover:shadow-xl group">
                     <Image
                       src="/images/about/mission/mission-4.jpg"
                       alt="Our mission in action - Global partnerships"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-105"
                       quality={85}
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                      <h3 className="text-lg font-semibold">Global Partnerships</h3>
+                      <p className="text-sm text-white/90">Working together for a better world</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -603,7 +624,7 @@ export default function AboutPage() {
                   <Button size="lg" className="bg-white text-primary hover:bg-white/90">
                     <Link href="/register">Create an Account</Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 transition-all duration-300">
                     <Link href="/get-involved">Get Involved</Link>
                   </Button>
                 </div>
@@ -611,10 +632,10 @@ export default function AboutPage() {
               <div className="flex justify-center">
                 <div className="relative h-[300px] w-full max-w-[500px]">
                   <Image
-                    src="/placeholder.svg?height=300&width=500"
+                    src="/images/about/community.jpg"
                     alt="Join our community"
                     fill
-                    className="object-cover rounded-lg"
+                    className="object-cover rounded-lg transition-transform duration-300 hover:scale-105"
                   />
                 </div>
               </div>
