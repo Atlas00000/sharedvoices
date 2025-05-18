@@ -131,7 +131,7 @@ export default function GetInvolvedPage() {
       location: "Virtual",
       description:
         "Join young leaders from around the world to discuss innovative solutions to global challenges and network with like-minded changemakers.",
-      image: "/placeholder.svg?height=200&width=400",
+      image: "/images/get-involved/events/event1.jpg",
     },
     {
       title: "Sustainable Innovation Conference",
@@ -139,7 +139,7 @@ export default function GetInvolvedPage() {
       location: "New York, NY",
       description:
         "Explore cutting-edge solutions for sustainable development and connect with industry leaders, innovators, and policymakers.",
-      image: "/placeholder.svg?height=200&width=400",
+      image: "/images/get-involved/events/event2.jpg",
     },
     {
       title: "Climate Action Workshop Series",
@@ -147,7 +147,7 @@ export default function GetInvolvedPage() {
       location: "Multiple locations & Virtual",
       description:
         "A series of hands-on workshops focused on practical climate action strategies for individuals and communities.",
-      image: "/placeholder.svg?height=200&width=400",
+      image: "/images/get-involved/events/event3.jpg",
     },
   ]
 
@@ -187,7 +187,7 @@ export default function GetInvolvedPage() {
               <div className="flex justify-center animate-slide-in-right">
                 <div className="relative h-[300px] w-[300px] md:h-[400px] md:w-[400px]">
                   <Image
-                    src="/placeholder.svg?height=400&width=400"
+                    src="/images/get-involved/newsletter.jpg"
                     alt="Get Involved"
                     fill
                     className="object-contain"
@@ -742,10 +742,10 @@ export default function GetInvolvedPage() {
                 >
                   <div className="aspect-video relative">
                     <Image
-                      src={event.image || "/placeholder.svg"}
+                      src={`/images/get-involved/events/event${index + 1}.jpg`}
                       alt={event.title}
                       fill
-                      className="object-cover transition-transform hover:scale-105"
+                      className="object-cover transition-transform duration-300 hover:scale-105"
                     />
                   </div>
                   <CardContent className="p-6">
@@ -841,10 +841,10 @@ export default function GetInvolvedPage() {
               <div className="flex justify-center">
                 <div className="relative h-[400px] w-full max-w-[500px]">
                   <Image
-                    src="/placeholder.svg?height=400&width=500"
+                    src="/images/get-involved/newsletter.jpg"
                     alt="Stay connected"
                     fill
-                    className="object-cover rounded-lg"
+                    className="object-cover rounded-lg transition-transform duration-300 hover:scale-105"
                   />
                 </div>
               </div>
