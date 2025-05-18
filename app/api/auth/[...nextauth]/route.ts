@@ -52,6 +52,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = user.role;
       }
+      console.log("JWT Callback - Token:", token);
       return token;
     },
     async session({ session, token }) {

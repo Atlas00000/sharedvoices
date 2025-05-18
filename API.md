@@ -1,5 +1,12 @@
 # Shared Voices API Documentation
 
+# Default Admin Credentials
+
+- **Email:** admin@sharedvoices.org
+- **Password:** Admin@123
+
+---
+
 ## Authentication Endpoints
 
 ### POST /api/auth/register
