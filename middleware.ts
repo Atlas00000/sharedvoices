@@ -6,19 +6,24 @@ export default withAuth(
   async function middleware(req) {
     const token = req.nextauth.token;
     const isAdmin = token?.role === "ADMIN";
-    console.log("Request URL:", req.nextUrl.pathname);
-    console.log("Token:", token);
-    console.log("Is Admin:", isAdmin);
+    console.log("Middleware - Request URL:", req.nextUrl.pathname);
+    console.log("Middleware - Token:", token);
+    console.log("Middleware - Is Admin:", isAdmin);
+
+    // Allow access to auth-related routes
+    if (req.nextUrl.pathname.startsWith("/api/auth")) {
+      return NextResponse.next();
+    }
 
     // Redirect non-admin users trying to access admin routes
     if (req.nextUrl.pathname.startsWith("/admin") && !isAdmin) {
-      console.log("Redirecting non-admin user to homepage");
+      console.log("Middleware - Redirecting non-admin user to homepage");
       return NextResponse.redirect(new URL("/", req.url));
     }
 
     // Ensure admin users can access the admin page
     if (req.nextUrl.pathname.startsWith("/admin") && isAdmin) {
-      console.log("Admin user accessing admin page");
+      console.log("Middleware - Admin user accessing admin page");
       return NextResponse.next();
     }
 
@@ -32,7 +37,11 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => !!token,
+      authorized: ({ token }) => {
+        // Allow access to public routes
+        if (token) return true;
+        return false;
+      },
     },
   }
 );

@@ -12,6 +12,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
     }),
     CredentialsProvider({
       name: "credentials",
@@ -48,26 +55,51 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "google") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email! }
+        });
+
+        if (!existingUser) {
+          await prisma.user.create({
+            data: {
+              email: user.email!,
+              name: user.name,
+              image: user.image,
+              role: "USER"
+            }
+          });
+        }
+      }
+      return true;
+    },
+    async jwt({ token, user, account }) {
       if (user) {
         token.role = user.role;
+        token.id = user.id;
       }
-      console.log("JWT Callback - Token:", token);
+      if (account) {
+        token.accessToken = account.access_token;
+      }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
+        session.user.id = token.id;
       }
       return session;
     }
   },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

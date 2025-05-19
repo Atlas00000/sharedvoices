@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "type-check": "tsc --noEmit",
-    "create-admin": "node scripts/create-admin.js",
+    "create-admin": "ts-node scripts/create-admin.ts",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",

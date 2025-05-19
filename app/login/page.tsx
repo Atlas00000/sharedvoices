@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { signIn } from "next-auth/react"
@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Globe, Facebook, Github, Loader2, Mail } from "lucide-react"
 import { toast } from "sonner"
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
@@ -58,10 +58,29 @@ export default function LoginPage() {
   }
 
   const handleSocialLogin = async (provider: string) => {
+    setIsLoading(true)
     try {
-      await signIn(provider, { callbackUrl })
+      const result = await signIn(provider, {
+        callbackUrl,
+        redirect: false,
+      })
+
+      if (result?.error) {
+        console.error("Social login error:", result.error)
+        toast.error("Authentication failed. Please try again.")
+        return
+      }
+
+      if (result?.url) {
+        router.push(result.url)
+      } else {
+        router.push(callbackUrl)
+      }
     } catch (error) {
+      console.error("Social login error:", error)
       toast.error("Something went wrong")
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -160,9 +179,23 @@ export default function LoginPage() {
                     <Facebook className="mr-2 h-4 w-4" />
                     Continue with Facebook
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin("google")}>
-                    <Mail className="mr-2 h-4 w-4" />
-                    Continue with Google
+                  <Button 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={() => handleSocialLogin("google")}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Connecting...
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="mr-2 h-4 w-4" />
+                        Continue with Google
+                      </>
+                    )}
                   </Button>
                 </div>
               </TabsContent>
@@ -195,5 +228,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginContent />
+    </Suspense>
   )
 }
