@@ -1,8 +1,9 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { activityMiddleware } from "./middleware/activity";
 
 export default withAuth(
-  function middleware(req) {
+  async function middleware(req) {
     const token = req.nextauth.token;
     const isAdmin = token?.role === "ADMIN";
     console.log("Request URL:", req.nextUrl.pathname);
@@ -21,7 +22,13 @@ export default withAuth(
       return NextResponse.next();
     }
 
-    return NextResponse.next();
+    // Create the response
+    const response = NextResponse.next();
+
+    // Track user activity
+    await activityMiddleware(req, response);
+
+    return response;
   },
   {
     callbacks: {
@@ -35,6 +42,8 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/admin/:path*",
-    "/profile/:path*",
+    "/api/admin/:path*",
+    "/api/stories/:path*",
+    "/api/profile/:path*",
   ],
 }; 

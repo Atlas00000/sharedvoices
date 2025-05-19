@@ -1,60 +1,72 @@
-import winston from 'winston';
-import 'winston-daily-rotate-file';
+import { prisma } from './prisma';
+import { LogLevel } from '@prisma/client';
 
-// Check if we're in a browser environment
-const isBrowser = typeof window !== 'undefined';
+export class Logger {
+  static async logUserActivity(
+    userId: string,
+    action: string,
+    details?: any,
+    ipAddress?: string,
+    userAgent?: string
+  ) {
+    try {
+      await prisma.activityLog.create({
+        data: {
+          userId,
+          action,
+          details: details ? JSON.stringify(details) : null,
+          ipAddress,
+          userAgent,
+        },
+      });
+    } catch (error) {
+      console.error('Failed to log user activity:', error);
+    }
+  }
 
-let logger: winston.Logger;
+  static async logSystemEvent(
+    level: LogLevel,
+    message: string,
+    details?: any
+  ) {
+    try {
+      await prisma.systemLog.create({
+        data: {
+          level,
+          message,
+          details: details ? JSON.stringify(details) : null,
+        },
+      });
+    } catch (error) {
+      console.error('Failed to log system event:', error);
+    }
+  }
 
-if (isBrowser) {
-  // Browser environment - use console logging
-  logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json()
-    ),
-    transports: [
-      new winston.transports.Console({
-        format: winston.format.combine(
-          winston.format.colorize(),
-          winston.format.simple()
-        ),
-      }),
-    ],
-  });
-} else {
-  // Server environment - use file logging
-  logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json()
-    ),
-    transports: [
-      new winston.transports.Console({
-        format: winston.format.combine(
-          winston.format.colorize(),
-          winston.format.simple()
-        ),
-      }),
-      new winston.transports.DailyRotateFile({
-        filename: 'logs/error-%DATE%.log',
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        maxSize: '20m',
-        maxFiles: '14d',
-        level: 'error',
-      }),
-      new winston.transports.DailyRotateFile({
-        filename: 'logs/combined-%DATE%.log',
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        maxSize: '20m',
-        maxFiles: '14d',
-      }),
-    ],
-  });
-}
+  static async getUserActivityLogs(
+    userId: string,
+    page = 1,
+    limit = 10
+  ) {
+    const skip = (page - 1) * limit;
+    return prisma.activityLog.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
+    });
+  }
 
-export default logger; 
+  static async getSystemLogs(
+    level?: LogLevel,
+    page = 1,
+    limit = 10
+  ) {
+    const skip = (page - 1) * limit;
+    return prisma.systemLog.findMany({
+      where: level ? { level } : undefined,
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
+    });
+  }
+} 
