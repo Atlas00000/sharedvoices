@@ -2,6 +2,7 @@ import type React from "react"
 import { Inter, Poppins } from "next/font/google"
 import { Providers } from "./providers"
 import "./globals.css"
+import ErrorBoundary from "@/components/ErrorBoundary"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
-        <Providers>{children}</Providers>
+        <ErrorBoundary>
+          <Providers>{children}</Providers>
+        </ErrorBoundary>
       </body>
     </html>
   )
